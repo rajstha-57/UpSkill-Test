@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upskill: English Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f5f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-results-layout.active {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            max-height: calc(100vh - 40px);
+        }
+
+        /* --- Navigation Bar --- */
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        .back-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* --- Landing Page --- */
+        .header-main {
+            padding: 24px 28px 12px 28px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .card {
+            background-color: #ebebeb;
+            margin: 0 20px 24px 20px;
+            padding: 28px 24px;
+            border-radius: 8px;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #333333;
+            margin-bottom: 28px;
+        }
+
+        .btn-start {
+            width: 100%;
+            background-color: #0d1b2a;
+            color: #ffffff;
+            border: none;
+            padding: 16px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-start:hover {
+            background-color: #1b263b;
+        }
+
+        .btn-start:active {
+            transform: scale(0.99);
+        }
+
+        /* --- Selection Lists --- */
+        .section-list {
+            padding: 0 20px 20px 20px;
+        }
+
+        .section-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .section-item:last-child {
+            border-bottom: none;
+        }
+
+        .section-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+        }
+
+        .icon-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid #2a9d8f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .icon-circle svg {
+            width: 24px;
+            height: 24px;
+            stroke: #2a9d8f;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .section-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: #666666;
+        }
+
+        .start-link {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .start-link:hover {
+            background-color: #f0f0f0;
+        }
+
+        .number-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #009688;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .part-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .part-duration {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- Part Details Page --- */
+        .part-detail-container {
+            padding: 10px 24px 28px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .large-icon-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #2a9d8f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .large-icon-circle svg {
+            width: 48px;
+            height: 48px;
+            stroke: #2a9d8f;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .part-detail-heading {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .bullet-list {
+            width: 100%;
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
+            margin-bottom: 12px;
+        }
+
+        .bullet-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-size: 20px;
+            color: #333333;
+        }
+
+        .section-divider {
+            width: 100%;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        /* --- Test Screen --- */
+        .test-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 10;
+        }
+
+        .progress-pill {
+            background-color: #00a896;
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .test-content {
+            padding: 12px 20px 24px 20px;
+        }
+
+        .instruction-heading {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .reading-passage {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #333333;
+            margin-bottom: 24px;
+            white-space: pre-line;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 15px;
+            color: #333333;
+            cursor: pointer;
+            background-color: #ffffff;
+            transition: all 0.2s ease;
+            line-height: 1.4;
+        }
+
+        .option-card:hover {
+            border-color: #b0b0b0;
+        }
+
+        .option-card.selected {
+            border: 1.5px solid #1a1a1a;
+            background-color: #f9f9f9;
+        }
+
+        .input-box {
+            width: 100%;
+            border: 1px solid #a0a0a0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 16px;
+            color: #1a1a1a;
+            background-color: #ffffff;
+            outline: none;
+            margin-bottom: 24px;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-box:focus {
+            border-color: #1a1a1a;
+        }
+
+        .textarea-box {
+            width: 100%;
+            height: 120px;
+            border: 1px solid #a0a0a0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-size: 15px;
+            color: #1a1a1a;
+            background-color: #ffffff;
+            outline: none;
+            resize: vertical;
+            margin-bottom: 12px;
+            transition: border-color 0.2s ease;
+        }
+
+        .textarea-box:focus {
+            border-color: #1a1a1a;
+        }
+
+        .word-count-display {
+            text-align: right;
+            font-size: 14px;
+            font-weight: 600;
+            color: #666666;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit {
+            display: none;
+            width: 100%;
+            background-color: #0d1b2a;
+            color: #ffffff;
+            border: none;
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit.visible {
+            display: block;
+        }
+
+        /* --- Scrollable Layout for Part 5 --- */
+        .q-block {
+            display: none;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+
+        .q-block:last-child {
+            border-bottom: none;
+        }
+
+        .q-block.active {
+            display: block;
+        }
+
+        /* --- Results View --- */
+        .results-container {
+            padding: 16px 20px 20px 20px;
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .result-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .result-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .result-q-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-icon.correct {
+            background-color: #2e7d32;
+        }
+
+        .status-icon.incorrect {
+            background-color: #d32f2f;
+        }
+
+        .result-passage {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #333333;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        .result-divider {
+            height: 1px;
+            background-color: #f0f0f0;
+            margin: 16px 0;
+        }
+
+        .result-question-prompt {
+            font-size: 16px;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+        }
+
+        .answer-label {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .answer-label.your-answer {
+            color: #2e7d32;
+        }
+
+        .answer-label.your-answer-wrong {
+            color: #d32f2f;
+        }
+
+        .answer-label.correct-answer {
+            color: #2e7d32;
+        }
+
+        .answer-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .result-footer {
+            flex-shrink: 0;
+            background-color: #ffffff;
+            padding: 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .btn-retry, .btn-continue {
+            flex: 1;
+            border: none;
+            padding: 14px 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-retry {
+            background-color: #ebebeb;
+            color: #1a1a1a;
+        }
+
+        .btn-continue {
+            background-color: #0d1b2a;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="page-home" class="page active">
+            <h1 class="header-main">Practice Test</h1>
+            <div class="card">
+                <p class="description">Ready to see how good your English is? Take our practice test to evaluate your current proficiency level.</p>
+                <button class="btn-start" onclick="navigateTo('page-sections')">Start Practice Test</button>
+            </div>
+        </div>
+
+        <!-- Skill Selection Page -->
+        <div id="page-sections" class="page">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="navigateTo('page-home')" aria-label="Go back">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 class="nav-title">Practice Test</h2>
+            </div>
+
+            <div class="section-list">
+                <div class="section-item">
+                    <div class="section-left" onclick="navigateTo('page-reading')">
+                        <div class="icon-circle">
+                            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="8" y1="6" x2="16" y2="6"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
+                        </div>
+                        <div class="section-info">
+                            <span class="section-title">Reading</span>
+                            <span class="section-subtitle">5 parts</span>
+                        </div>
+                    </div>
+                    <a class="start-link" onclick="navigateTo('page-reading')">START</a>
+                </div>
+
+                <div class="section-item">
+                    <div class="section-left" onclick="alert('Starting Listening test...')">
+                        <div class="icon-circle">
+                            <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2H3z"></path></svg>
+                        </div>
+                        <div class="section-info">
+                            <span class="section-title">Listening</span>
+                            <span class="section-subtitle">5 parts</span>
+                        </div>
+                    </div>
+                    <a class="start-link" onclick="alert('Starting Listening test...')">START</a>
+                </div>
+
+                <div class="section-item">
+                    <div class="section-left" onclick="alert('Starting Speaking test...')">
+                        <div class="icon-circle">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><circle cx="9" cy="10" r="1" fill="#2a9d8f"></circle><circle cx="12" cy="10" r="1" fill="#2a9d8f"></circle><circle cx="15" cy="10" r="1" fill="#2a9d8f"></circle></svg>
+                        </div>
+                        <div class="section-info">
+                            <span class="section-title">Speaking</span>
+                            <span class="section-subtitle">5 parts</span>
+                        </div>
+                    </div>
+                    <a class="start-link" onclick="alert('Starting Speaking test...')">START</a>
+                </div>
+
+                <div class="section-item">
+                    <div class="section-left" onclick="navigateTo('page-writing')">
+                        <div class="icon-circle">
+                            <svg viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </div>
+                        <div class="section-info">
+                            <span class="section-title">Writing</span>
+                            <span class="section-subtitle">2 parts</span>
+                        </div>
+                    </div>
+                    <a class="start-link" onclick="navigateTo('page-writing')">START</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading Parts List -->
+        <div id="page-reading" class="page">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="navigateTo('page-sections')" aria-label="Go back">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 class="nav-title">Reading</h2>
+            </div>
+
+            <div class="section-list">
+                <div class="section-item" style="cursor: pointer;" onclick="openPartDetail(1)">
+                    <div class="section-left">
+                        <div class="number-circle">1</div>
+                        <span class="part-title">Reading Part 1</span>
+                    </div>
+                    <span class="part-duration">05:00 MINS</span>
+                </div>
+
+                <div class="section-item" style="cursor: pointer;" onclick="openPartDetail(2)">
+                    <div class="section-left">
+                        <div class="number-circle">2</div>
+                        <span class="part-title">Reading Part 2</span>
+                    </div>
+                    <span class="part-duration">05:00 MINS</span>
+                </div>
+
+                <div class="section-item" style="cursor: pointer;" onclick="openPartDetail(3)">
+                    <div class="section-left">
+                        <div class="number-circle">3</div>
+                        <span class="part-title">Reading Part 3</span>
+                    </div>
+                    <span class="part-duration">05:00 MINS</span>
+                </div>
+
+                <div class="section-item" style="cursor: pointer;" onclick="openPartDetail(4)">
+                    <div class="section-left">
+                        <div class="number-circle">4</div>
+                        <span class="part-title">Reading Part 4</span>
+                    </div>
+                    <span class="part-duration">05:00 MINS</span>
+                </div>
+
+                <div class="section-item" style="cursor: pointer;" onclick="openPartDetail(5)">
+                    <div class="section-left">
+                        <div class="number-circle">5</div>
+                        <span class="part-title">Reading Part 5</span>
+                    </div>
+                    <span class="part-duration">05:00 MINS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Parts List -->
+        <div id="page-writing" class="page">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="navigateTo('page-sections')" aria-label="Go back">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 class="nav-title">Writing</h2>
+            </div>
+
+            <div class="section-list">
+                <div class="section-item" style="cursor: pointer;" onclick="openWritingDetail(1)">
+                    <div class="section-left">
+                        <div class="number-circle">1</div>
+                        <span class="part-title">Writing Part 1</span>
+                    </div>
+                    <span class="part-duration">15:00 MINS</span>
+                </div>
+
+                <div class="section-item" style="cursor: pointer;" onclick="openWritingDetail(2)">
+                    <div class="section-left">
+                        <div class="number-circle">2</div>
+                        <span class="part-title">Writing Part 2</span>
+                    </div>
+                    <span class="part-duration">15:00 MINS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Writing Part Detail Instruction Screen -->
+        <div id="page-writing-detail" class="page">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="navigateTo('page-writing')" aria-label="Go back">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 class="nav-title">Writing</h2>
+            </div>
+
+            <div class="part-detail-container">
+                <div class="large-icon-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                </div>
+
+                <h3 class="part-detail-heading" id="writing-detail-heading">Writing Part 1</h3>
+
+                <ul class="bullet-list" id="writing-instructions">
+                    <li>This writing test lasts around 15 minutes.</li>
+                    <li>Write at least 50 words.</li>
+                </ul>
+
+                <div class="section-divider">Before you start</div>
+
+                <ul class="bullet-list">
+                    <li>For the next few minutes, you will be taking a secure test.</li>
+                    <li>You will be working under test conditions.</li>
+                    <li>You cannot leave this part of the test once started.</li>
+                </ul>
+
+                <button class="btn-start" onclick="startWritingTest()">START TEST</button>
+            </div>
+        </div>
+
+        <!-- Writing Test Screen -->
+        <div id="page-writing-test" class="page">
+            <div class="test-header">
+                <span class="progress-pill">1/1</span>
+                <div class="timer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="timer-display">15:00</span>
+                </div>
+            </div>
+
+            <div class="test-content">
+                <h3 class="instruction-heading" id="writing-instruction-heading">Reply to this ad to apply for the job:</h3>
+
+                <div class="reading-passage" id="writing-passage" style="margin-bottom: 16px;"></div>
+
+                <div class="question-text" id="writing-question-text" style="margin-bottom: 8px;"></div>
+                <div class="reading-passage" id="writing-bullet-points" style="margin-bottom: 16px;"></div>
+
+                <div class="reading-passage" style="margin-bottom: 12px; font-weight: 600;">Write at least 50 words.</div>
+
+                <textarea class="textarea-box" id="writing-input" placeholder="Type here" oninput="updateWritingWordCount()"></textarea>
+                <div class="word-count-display" id="writing-word-count">0 WORDS</div>
+
+                <button id="writing-submit-btn" class="btn-submit" onclick="submitWritingTest()">SUBMIT</button>
+            </div>
+        </div>
+
+        <!-- Dynamic Part Details Instruction Screen -->
+        <div id="page-part-detail" class="page">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="navigateTo('page-reading')" aria-label="Go back">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 class="nav-title">Reading</h2>
+            </div>
+
+            <div class="part-detail-container">
+                <div class="large-icon-circle">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        <line x1="8" y1="6" x2="16" y2="6"></line>
+                        <line x1="8" y1="10" x2="16" y2="10"></line>
+                    </svg>
+                </div>
+
+                <h3 class="part-detail-heading" id="part-detail-heading">Reading Part 1</h3>
+
+                <ul class="bullet-list" id="part-instructions">
+                    <!-- Dynamic Instructions -->
+                </ul>
+
+                <div class="section-divider">Before you start</div>
+
+                <ul class="bullet-list">
+                    <li>For the next few minutes, you will be taking a secure test.</li>
+                    <li>You will be working under test conditions.</li>
+                    <li>You cannot leave this part of the test once started.</li>
+                </ul>
+
+                <button class="btn-start" id="start-test-btn" onclick="startTest()">START TEST</button>
+            </div>
+        </div>
+
+        <!-- Parts 1 to 4 Step-by-Step Screen -->
+        <div id="page-test-step" class="page">
+            <div class="test-header">
+                <span class="progress-pill" id="step-progress-pill">1/4</span>
+                <div class="timer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="timer-display">05:00</span>
+                </div>
+            </div>
+
+            <div class="test-content">
+                <h3 class="instruction-heading" id="step-instruction">Read and choose the correct answer</h3>
+                
+                <p class="reading-passage" id="step-passage"></p>
+
+                <div class="question-text" id="step-question"></div>
+
+                <div id="step-input-area"></div>
+
+                <button id="step-submit-btn" class="btn-submit" onclick="submitStepQuestion()">SUBMIT</button>
+            </div>
+        </div>
+
+        <!-- Part 5 Scrollable Test Page -->
+        <div id="page-test-5" class="page">
+            <div class="test-header">
+                <span class="progress-pill" id="p5-progress-pill">1/4</span>
+                <div class="timer">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span class="timer-display">05:00</span>
+                </div>
+            </div>
+
+            <div class="test-content">
+                <h3 class="instruction-heading">Read and choose the correct answer for each question</h3>
+
+                <div class="q-block active" id="p5-q1-block">
+                    <p class="reading-passage">The men in the Anand family are all crazy about cricket. These days, Sachin's father, Ramesh Anand, is a cricket coach, but for many years, he was a professional player at the Cricket Club of India. Sachin's grandmother, Babita, also had a full-time job there, making meals for the players.</p>
+                    <div class="question-text">What is Ramesh Anand's job now?</div>
+                    <div class="options-container">
+                        <div class="option-card" onclick="selectP5Option(1, 'a cook', this)">a cook</div>
+                        <div class="option-card" onclick="selectP5Option(1, 'a trainer', this)">a trainer</div>
+                        <div class="option-card" onclick="selectP5Option(1, 'a cricketer', this)">a cricketer</div>
+                    </div>
+                </div>
+
+                <div class="q-block" id="p5-q2-block">
+                    <p class="reading-passage">Sachin started playing cricket as soon as he could walk. 'I never taught him,' says Ramesh, 'because he never let me.' Now aged sixteen, Sachin is a member of the Cricket Club of India, where his father was the star player for many years.</p>
+                    <div class="question-text">Sachin learned how to play cricket</div>
+                    <div class="options-container">
+                        <div class="option-card" onclick="selectP5Option(2, 'from his father.', this)">from his father.</div>
+                        <div class="option-card" onclick="selectP5Option(2, 'at the Cricket Club of India.', this)">at the Cricket Club of India.</div>
+                        <div class="option-card" onclick="selectP5Option(2, 'at a very young age.', this)">at a very young age.</div>
+                    </div>
+                </div>
+
+                <div class="q-block" id="p5-q3-block">
+                    <p class="reading-passage">Ramesh's wife, Soni, is a website designer. They met while she was collecting content for a webpage for the club he was playing for and got married soon after. 'When Sachin started playing cricket, the house became too small for him and Ramesh to keep all of their workout equipment in, so Soni made the garage into a gym. 'Now the living room is nice and quiet for me to do some work!' she says.</p>
+                    <div class="question-text">Soni helped her husband and son by</div>
+                    <div class="options-container">
+                        <div class="option-card" onclick="selectP5Option(3, 'moving to a larger house.', this)">moving to a larger house.</div>
+                        <div class="option-card" onclick="selectP5Option(3, 'making a place for them to train in.', this)">making a place for them to train in.</div>
+                        <div class="option-card" onclick="selectP5Option(3, 'letting them use the living room for exercise.', this)">letting them use the living room for exercise.</div>
+                    </div>
+                </div>
+
+                <div class="q-block" id="p5-q4-block">
+                    <p class="reading-passage">Last month, Sachin was selected to take part in an international youth league competition. Of course, Ramesh and Babita came to watch and Soni was there too, which made it very special for Sachin. Soni says, 'I'm not that interested in cricket myself but it's fantastic seeing Sachin playing his first international game with Ramesh's old club!' Sachin was wearing a cap that Babita made for Ramesh many years before.</p>
+                    <div class="question-text">What was the best thing about the youth league game for Sachin?</div>
+                    <div class="options-container">
+                        <div class="option-card" onclick="selectP5Option(4, 'His family were there.', this)">His family were there.</div>
+                        <div class="option-card" onclick="selectP5Option(4, 'It was his first game at the club.', this)">It was his first game at the club.</div>
+                        <div class="option-card" onclick="selectP5Option(4, 'He was wearing a new cap.', this)">He was wearing a new cap.</div>
+                    </div>
+                </div>
+
+                <button id="submit-btn-5" class="btn-submit" onclick="submitP5Test()">SUBMIT</button>
+            </div>
+        </div>
+
+        <!-- Universal Results View -->
+        <div id="page-results" class="page page-results-layout">
+            <div class="nav-bar">
+                <button class="back-btn" onclick="navigateTo('page-reading')" aria-label="Go back">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h2 class="nav-title" id="results-nav-title">Reading Results</h2>
+            </div>
+
+            <div class="results-container" id="results-list"></div>
+
+            <div class="result-footer">
+                <button class="btn-retry" onclick="retryCurrentTest()">RETRY</button>
+                <button class="btn-continue" onclick="navigateTo('page-reading')">CONTINUE</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPart = 1;
+        let currentWritingPart = 1;
+        let currentQuestionIdx = 0;
+        let userAnswers = {};
+        let timerInterval = null;
+        let timeRemaining = 300;
+
+        const writingData = {
+            1: {
+                heading: "Reply to this ad to apply for the job:",
+                passage: "<strong>Job ad</strong>\n\nRe: Marketing Administrator\n\nA telemarketing company is looking for a keen and capable Marketing Administrator. This customer-facing role requires great communication skills and the ability to create good customer relationships quickly. No previous experience is required, but you will need to show your communication skills in the first round of group interviews.",
+                questionText: "Reply to this ad to apply for the job:",
+                bulletPoints: "You should\n• say why you are interested in applying\n• explain why you think you'd be great at this job\n• ask for an interview."
+            },
+            2: {
+                heading: "You have received this message from a customer.",
+                passage: "<strong>To: Customer Service</strong>\n\nHi. You've been my internet provider for the last three months, but unfortunately, the connection hasn't been working for me. My contract is for 12 months, but I really don't think I should pay for the service you provide. Could I arrange for an immediate cancellation and a full refund please?\nDevi",
+                questionText: "Reply to Devi:",
+                bulletPoints: "You should\n• apologise and give reasons for service problems\n• explain what you can do to help\n• try to persuade the customer to stay with your company."
+            }
+        };
+
+        const testData = {
+            1: {
+                instructions: [
+                    "You will read 4 short texts.",
+                    "Read each text and choose the correct answer."
+                ],
+                instructionHeading: "Read and choose the correct answer",
+                type: "mcq",
+                questions: [
+                    {
+                        passage: "Please join me in welcoming Komathi Singh to GoCom. Komathi brings with her fifteen years of experience.",
+                        question: "Komathi Singh is ______",
+                        options: ["starting a new job with GoCom.", "leaving GoCom after working there for many years.", "celebrating fifteen years of GoCom."],
+                        correctAnswer: "starting a new job with GoCom."
+                    },
+                    {
+                        passage: "Hi Farida,\n\nHelp! Did you write down what we have to do before Thursday's meeting? I've lost my notes!\n\nGeeta",
+                        question: "What does the message say?",
+                        options: ["Geeta has forgotten when the next meeting is.", "Geeta hopes Farida will help her find her notes.", "Geeta wants to know what the meeting actions are."],
+                        correctAnswer: "Geeta wants to know what the meeting actions are."
+                    },
+                    {
+                        passage: "BizQuip, US-based producer of office furniture wishes to do business in India and is looking for importers.",
+                        question: "What does BizQuip want to do?",
+                        options: ["Sell its equipment abroad.", "Import furniture into the US.", "Manufacture in India."],
+                        correctAnswer: "Sell its equipment abroad."
+                    },
+                    {
+                        passage: "Front desk staff wanted. Experience needed. Full training will be provided (no qualifications needed).",
+                        question: "Applicants must have",
+                        options: ["relevant qualifications.", "special training.", "work experience."],
+                        correctAnswer: "work experience."
+                    }
+                ]
+            },
+            2: {
+                instructions: [
+                    "You will read 4 short sentences. A word is missing in each sentence.",
+                    "Choose the correct word to complete the sentence."
+                ],
+                instructionHeading: "Read and choose the correct word",
+                type: "mcq",
+                questions: [
+                    {
+                        passage: "The only problem with this job is getting _______ so early every day!",
+                        question: "Choose the correct word",
+                        options: ["to", "up", "on"],
+                        correctAnswer: "up"
+                    },
+                    {
+                        passage: "I've _____ been on a business trip before.",
+                        question: "Choose the correct word",
+                        options: ["ever", "still", "never"],
+                        correctAnswer: "never"
+                    },
+                    {
+                        passage: "An amusement park _______ 'Fast Rapids' has just opened for business.",
+                        question: "Choose the correct word",
+                        options: ["calling", "called", "calls"],
+                        correctAnswer: "called"
+                    },
+                    {
+                        passage: "Social media is used _____ more than a third of all the people in the world.",
+                        question: "Choose the correct word",
+                        options: ["by", "of", "for"],
+                        correctAnswer: "by"
+                    }
+                ]
+            },
+            3: {
+                instructions: [
+                    "You will read 4 short sentences. A word is missing in each sentence.",
+                    "Write the missing word to complete each sentence."
+                ],
+                instructionHeading: "Read the sentence and write the correct answer",
+                type: "text",
+                questions: [
+                    {
+                        passage: "Hi Kartik, I hope _____ are well.",
+                        question: "Write the missing word",
+                        correctAnswer: "you"
+                    },
+                    {
+                        passage: "I'm busy tonight, I have an appointment ___ the evening.",
+                        question: "Write the missing word",
+                        correctAnswer: "in"
+                    },
+                    {
+                        passage: "Rhea is worried she won't _______ enough time to finish all her work before the weekend.",
+                        question: "Write the missing word",
+                        correctAnswer: "have"
+                    },
+                    {
+                        passage: "What _______ you do in your last job?",
+                        question: "Write the missing word",
+                        correctAnswer: "did"
+                    }
+                ]
+            },
+            4: {
+                instructions: [
+                    "You will read text passages with missing words.",
+                    "Select or write the best word for each option."
+                ],
+                instructionHeading: "Read and complete the missing words",
+                type: "mcq",
+                questions: [
+                    {
+                        passage: "The new company office is located _______ the city center.",
+                        question: "Choose the correct word",
+                        options: ["in", "at", "on"],
+                        correctAnswer: "in"
+                    },
+                    {
+                        passage: "We are expecting over fifty guests to _______ the annual event.",
+                        question: "Choose the correct word",
+                        options: ["attend", "visit", "go"],
+                        correctAnswer: "attend"
+                    },
+                    {
+                        passage: "Please ensure all reports are sent _______ Friday evening.",
+                        question: "Choose the correct word",
+                        options: ["by", "until", "for"],
+                        correctAnswer: "by"
+                    },
+                    {
+                        passage: "She has been working here _______ three years.",
+                        question: "Choose the correct word",
+                        options: ["for", "since", "during"],
+                        correctAnswer: "for"
+                    }
+                ]
+            },
+            5: {
+                instructions: [
+                    "You will read a longer text and see some questions.",
+                    "Read and choose the correct answer for each question."
+                ],
+                questions: [
+                    {
+                        passage: "The men in the Anand family are all crazy about cricket. These days, Sachin's father, Ramesh Anand, is a cricket coach, but for many years, he was a professional player at the Cricket Club of India. Sachin's grandmother, Babita, also had a full-time job there, making meals for the players.",
+                        question: "What is Ramesh Anand's job now?",
+                        correctAnswer: "a trainer"
+                    },
+                    {
+                        passage: "Sachin started playing cricket as soon as he could walk. 'I never taught him,' says Ramesh, 'because he never let me.' Now aged sixteen, Sachin is a member of the Cricket Club of India, where his father was the star player for many years.",
+                        question: "Sachin learned how to play cricket",
+                        correctAnswer: "at a very young age."
+                    },
+                    {
+                        passage: "Ramesh's wife, Soni, is a website designer. They met while she was collecting content for a webpage for the club he was playing for and got married soon after. 'When Sachin started playing cricket, the house became too small for him and Ramesh to keep all of their workout equipment in, so Soni made the garage into a gym. 'Now the living room is nice and quiet for me to do some work!' she says.",
+                        question: "Soni helped her husband and son by",
+                        correctAnswer: "making a place for them to train in."
+                    },
+                    {
+                        passage: "Last month, Sachin was selected to take part in an international youth league competition. Of course, Ramesh and Babita came to watch and Soni was there too, which made it very special for Sachin. Soni says, 'I'm not that interested in cricket myself but it's fantastic seeing Sachin playing his first international game with Ramesh's old club!' Sachin was wearing a cap that Babita made for Ramesh many years before.",
+                        question: "What was the best thing about the youth league game for Sachin?",
+                        correctAnswer: "His family were there."
+                    }
+                ]
+            }
+        };
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function openPartDetail(partNum) {
+            currentPart = partNum;
+            const data = testData[partNum];
+            document.getElementById('part-detail-heading').innerText = `Reading Part ${partNum}`;
+            const list = document.getElementById('part-instructions');
+            list.innerHTML = '';
+            data.instructions.forEach(inst => {
+                const li = document.createElement('li');
+                li.innerText = inst;
+                list.appendChild(li);
+            });
+            navigateTo('page-part-detail');
+        }
+
+        function openWritingDetail(partNum) {
+            currentWritingPart = partNum;
+            document.getElementById('writing-detail-heading').innerText = `Writing Part ${partNum}`;
+            navigateTo('page-writing-detail');
+        }
+
+        function startWritingTest() {
+            document.getElementById('writing-input').value = '';
+            updateWritingWordCount();
+
+            const data = writingData[currentWritingPart];
+            document.getElementById('writing-instruction-heading').innerText = data.heading;
+            document.getElementById('writing-passage').innerHTML = data.passage;
+            document.getElementById('writing-question-text').innerText = data.questionText;
+            document.getElementById('writing-bullet-points').innerText = data.bulletPoints;
+
+            startTimer(900);
+            navigateTo('page-writing-test');
+        }
+
+        function updateWritingWordCount() {
+            const text = document.getElementById('writing-input').value.trim();
+            const words = text ? text.split(/\s+/).filter(w => w.length > 0).length : 0;
+            document.getElementById('writing-word-count').innerText = `${words} WORD${words === 1 ? '' : 'S'}`;
+            const submitBtn = document.getElementById('writing-submit-btn');
+            if (words > 0) {
+                submitBtn.classList.add('visible');
+            } else {
+                submitBtn.classList.remove('visible');
+            }
+        }
+
+        function submitWritingTest() {
+            clearInterval(timerInterval);
+            alert("Writing test submitted successfully!");
+            navigateTo('page-writing');
+        }
+
+        function startTest() {
+            userAnswers = {};
+            currentQuestionIdx = 0;
+            startTimer(300);
+
+            if (currentPart === 5) {
+                for (let i = 1; i <= 4; i++) {
+                    const block = document.getElementById(`p5-q${i}-block`);
+                    if (i === 1) block.classList.add('active');
+                    else block.classList.remove('active');
+                    block.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                }
+                document.getElementById('p5-progress-pill').innerText = "1/4";
+                document.getElementById('submit-btn-5').classList.remove('visible');
+                navigateTo('page-test-5');
+            } else {
+                renderStepQuestion();
+                navigateTo('page-test-step');
+            }
+        }
+
+        function retryCurrentTest() {
+            startTest();
+        }
+
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            timeRemaining = seconds;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time is up!");
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timeRemaining / 60);
+            const secs = timeRemaining % 60;
+            const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            document.querySelectorAll('.timer-display').forEach(el => el.textContent = formatted);
+        }
+
+        function renderStepQuestion() {
+            const data = testData[currentPart];
+            const qData = data.questions[currentQuestionIdx];
+
+            document.getElementById('step-progress-pill').innerText = `${currentQuestionIdx + 1}/4`;
+            document.getElementById('step-instruction').innerText = data.instructionHeading;
+            document.getElementById('step-passage').innerText = qData.passage;
+            document.getElementById('step-question').innerText = qData.question;
+
+            const inputArea = document.getElementById('step-input-area');
+            const submitBtn = document.getElementById('step-submit-btn');
+            submitBtn.classList.remove('visible');
+            inputArea.innerHTML = '';
+
+            if (data.type === 'mcq') {
+                const container = document.createElement('div');
+                container.className = 'options-container';
+                qData.options.forEach(opt => {
+                    const card = document.createElement('div');
+                    card.className = 'option-card';
+                    card.innerText = opt;
+                    card.onclick = () => {
+                        container.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        userAnswers[currentQuestionIdx + 1] = opt;
+                        submitBtn.classList.add('visible');
+                    };
+                    container.appendChild(card);
+                });
+                inputArea.appendChild(container);
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'input-box';
+                input.placeholder = 'Type here...';
+                input.oninput = () => {
+                    userAnswers[currentQuestionIdx + 1] = input.value;
+                    if (input.value.trim().length > 0) {
+                        submitBtn.classList.add('visible');
+                    } else {
+                        submitBtn.classList.remove('visible');
+                    }
+                };
+                inputArea.appendChild(input);
+            }
+        }
+
+        function submitStepQuestion() {
+            if (currentQuestionIdx < 3) {
+                currentQuestionIdx++;
+                renderStepQuestion();
+            } else {
+                finishTest();
+            }
+        }
+
+        function selectP5Option(qNum, value, el) {
+            userAnswers[qNum] = value;
+            const parent = el.parentElement;
+            parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+
+            if (qNum < 4) {
+                const nextQ = qNum + 1;
+                const nextBlock = document.getElementById(`p5-q${nextQ}-block`);
+                if (!nextBlock.classList.contains('active')) {
+                    nextBlock.classList.add('active');
+                }
+                document.getElementById('p5-progress-pill').innerText = `${nextQ}/4`;
+                setTimeout(() => {
+                    nextBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
+            } else {
+                document.getElementById('p5-progress-pill').innerText = "4/4";
+                document.getElementById('submit-btn-5').classList.add('visible');
+                setTimeout(() => {
+                    document.getElementById('submit-btn-5').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 150);
+            }
+        }
+
+        function submitP5Test() {
+            finishTest();
+        }
+
+        function finishTest() {
+            clearInterval(timerInterval);
+            renderResults();
+            navigateTo('page-results');
+        }
+
+        function renderResults() {
+            document.getElementById('results-nav-title').innerText = `Reading Part ${currentPart}`;
+            const container = document.getElementById('results-list');
+            container.innerHTML = '';
+
+            const data = testData[currentPart];
+
+            for (let i = 1; i <= 4; i++) {
+                const qData = data.questions[i - 1];
+                const userAns = userAnswers[i] || "No answer entered.";
+                const correctAns = qData.correctAnswer;
+                const isCorrect = userAns.trim().toLowerCase() === correctAns.trim().toLowerCase();
+
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <div class="result-card-header">
+                        <span class="result-q-title">Question ${i}</span>
+                        <div class="status-icon ${isCorrect ? 'correct' : 'incorrect'}">
+                            ${isCorrect ? '✓' : '✕'}
+                        </div>
+                    </div>
+                    <p class="result-passage">${qData.passage}</p>
+                    <div class="result-divider"></div>
+                    <p class="result-question-prompt">${qData.question}</p>
+                    
+                    <div class="answer-label ${isCorrect ? 'your-answer' : 'your-answer-wrong'}">YOUR ANSWER</div>
+                    <div class="answer-value">${userAns}</div>
+                    
+                    ${!isCorrect ? `
+                        <div class="answer-label correct-answer">CORRECT ANSWER</div>
+                        <div class="answer-value">${correctAns}</div>
+                    ` : ''}
+                `;
+                container.appendChild(card);
+            }
+        }
+    </script>
+</body>
+</html>
